@@ -17,6 +17,22 @@ exports.getTasks = async (req, res) => {
   }
 };
 
+exports.getTask = async (req, res) => {
+  try {
+    const findTask = await Task.findById(req.params.id);
+    console.log(req.params.id);
+    res.status(200).json({
+      message: "Task found",
+      Task: findTask,
+    });
+  } catch (err) {
+    res.status(400).json({
+      message: "error finding item",
+      Error: err,
+    });
+  }
+};
+
 exports.postTasks = async (req, res) => {
   try {
     const newTask = await Task.create(req.body);
@@ -34,5 +50,18 @@ exports.postTasks = async (req, res) => {
 };
 
 exports.deleteTask = async (req, res) => {
-  res.send("working");
+  try {
+    const id = req.params.id;
+    console.log(id);
+    const deleteTask = await Task.findByIdAndDelete(id);
+    res.status(200).json({
+      message: "delete sucessfully",
+      result: deleteTask,
+    });
+  } catch (err) {
+    res.status(400).json({
+      message: "failed to delete",
+      error: err,
+    });
+  }
 };

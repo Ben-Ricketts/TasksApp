@@ -10,10 +10,6 @@ function TaskManager() {
   const [message, setMessage] = useState("tasks");
   const [task, setTask] = useState([]);
 
-  const tasksHandler = () => {
-    setMessage("tasks");
-  };
-
   const progressHandler = () => {
     setMessage("in progress");
   };
@@ -22,6 +18,7 @@ function TaskManager() {
     setMessage("completed");
   };
 
+  // GET REQUEST
   useEffect(() => {
     const fetchItem = async () => {
       try {
@@ -36,6 +33,7 @@ function TaskManager() {
     fetchItem();
   }, []);
 
+  // POST REQUEST
   const addTaskHandler = async (newTask) => {
     try {
       const response = await axios.post(renderServer, {
@@ -47,13 +45,17 @@ function TaskManager() {
     }
   };
 
+  const tasksHandler = () => {
+    console.log(task);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <Text style={message === "tasks" ? styles.header : ""}>{message}</Text>
       </View>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <ToDoItems task={task} />
+        <ToDoItems task={task} setTask={setTask} />
       </ScrollView>
       <View>
         <CreateTask addTaskHandler={addTaskHandler} />

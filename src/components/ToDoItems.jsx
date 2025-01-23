@@ -10,12 +10,22 @@ import {
 } from "react-native";
 import TaskButton from "./TasksButton";
 import CreateTask from "./CreateTask";
-import DeleteTask from "./DeleteTask";
 import axios from "axios";
+// import DeviceInfo from "react-native-device-info";
 
-function ToDoItems({ task }) {
-  const returnId = (id) => {
+function ToDoItems({ task, setTask }) {
+  // Delete request
+  const deleteTaskHandler = async (id) => {
     console.log(id);
+    try {
+      const response = await axios.delete(
+        `https://todoapp-ec4e.onrender.com/api/tasks/${id}`
+      );
+      console.log("Task deleted:", response.data);
+      setTask(task.filter((t) => t._id !== id));
+    } catch (err) {
+      console.log("Error deleting task:", err);
+    }
   };
 
   return (
@@ -24,13 +34,13 @@ function ToDoItems({ task }) {
         <View key={index} style={styles.tasksContainer}>
           <Text>{t.task}</Text>
           <View style={styles.buttonContainer}>
-            <Button
-              title="start"
-              color="green"
-              onPress={() => returnId(t._id)}
-            />
+            <Button title="start" color="green" />
             <Button title="update" />
-            <Button title="delete" color="red" />
+            <Button
+              title="delete"
+              color="red"
+              onPress={() => deleteTaskHandler(t._id)}
+            />
           </View>
         </View>
       ))}
