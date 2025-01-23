@@ -9,13 +9,25 @@ function TaskManager() {
   const renderServer = "https://todoapp-ec4e.onrender.com/api/tasks";
   const [message, setMessage] = useState("tasks");
   const [task, setTask] = useState([]);
+  const [filteredTasks, setFilteredTask] = useState(task);
+
+  // Handlers
+
+  const tasksHandler = () => {
+    console.log(task.map((t) => t.status));
+    const tasks = task.filter((t) => t.status === "tasks");
+    setFilteredTask(tasks);
+  };
 
   const progressHandler = () => {
-    setMessage("in progress");
+    console.log(task.map((t) => t.status === "in progress"));
+    const inProgressTasks = task.filter((t) => t.status === "in progress");
+    setFilteredTask(inProgressTasks);
   };
 
   const completeHandler = () => {
-    setMessage("completed");
+    const completeTasks = task.filter((t) => t.status === "complete");
+    setFilteredTask(completeTasks);
   };
 
   // GET REQUEST
@@ -39,14 +51,10 @@ function TaskManager() {
       const response = await axios.post(renderServer, {
         task: newTask,
       });
-      setTask([...task, response.data.newPost]); // Update the state with the new task
+      // setTask([...task, response.data.newPost]); // Update the state with the new task
     } catch (err) {
       console.log("error posting data:", err);
     }
-  };
-
-  const tasksHandler = () => {
-    console.log(task);
   };
 
   return (
@@ -55,7 +63,7 @@ function TaskManager() {
         <Text style={message === "tasks" ? styles.header : ""}>{message}</Text>
       </View>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <ToDoItems task={task} setTask={setTask} />
+        <ToDoItems task={filteredTasks} setTask={setTask} />
       </ScrollView>
       <View>
         <CreateTask addTaskHandler={addTaskHandler} />
@@ -91,5 +99,8 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
 });
+
+// const inProgress = task.filter((t) => t.status === "in progress");
+// setTask(inProgress);
 
 export default TaskManager;

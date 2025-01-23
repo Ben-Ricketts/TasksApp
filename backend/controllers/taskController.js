@@ -65,3 +65,21 @@ exports.deleteTask = async (req, res) => {
     });
   }
 };
+
+exports.updateTask = async (req, res) => {
+  try {
+    const {id} = req.params;
+    const {status} = req.body;
+
+    const updatedTask = await Task.findByIdAndUpdate(id, {status}, {new: true})
+    if(!updatedTask){
+        return res.status(404).json({message: "Task not found"})
+    }
+    res.status(200).json(updatedTask)
+  }catch (err) {
+    res.status(400).json({
+      message: "failed to update",
+      error: err,
+    });
+  }
+}

@@ -5,11 +5,21 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Debug Android",
+      "cwd": "${workspaceFolder}",
+      "type": "reactnative",
+      "request": "launch",
+      "platform": "android",
+      "sourceMaps": true,
+      "enableDebug": true,
+      "port": 8081
+    },
+    {
       "name": "Attach to packager",
       "cwd": "${workspaceFolder}",
       "type": "reactnative",
       "request": "attach",
-      "isDynamic": true
+      "port": 8081
     }
   ]
 }
