@@ -11,7 +11,6 @@ import {
 import TaskButton from './TasksButton';
 import CreateTask from './CreateTask';
 import axios from 'axios';
-// import DeviceInfo from "react-native-device-info";
 
 function ToDoItems({ task, setTask }) {
   const renderServer = 'https://todoapp-ec4e.onrender.com/api/tasks';
@@ -19,12 +18,10 @@ function ToDoItems({ task, setTask }) {
   // Handlers
 
   const updateTaskStatus = async (taskId, newStatus) => {
-    console.log('updateTaskStatus called with:', { taskId, newStatus });
     try {
       const response = await axios.patch(`${renderServer}/${taskId}`, {
         status: newStatus,
       });
-      console.log('PATCH response:', response.data);
 
       // Update local state with the updated task
       setTask(prevTasks => {
