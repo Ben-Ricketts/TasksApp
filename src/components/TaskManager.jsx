@@ -21,6 +21,7 @@ function TaskManager() {
       setDeviceId(id);
     };
     initDeviceId();
+    // Hello test push
   }, []);
 
   // Handlers
