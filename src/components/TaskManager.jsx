@@ -21,7 +21,6 @@ function TaskManager() {
       setDeviceId(id);
     };
     initDeviceId();
-    // Hello test push
   }, []);
 
   // Handlers
@@ -49,11 +48,8 @@ function TaskManager() {
       if (!deviceId) return;
       try {
         console.log('Fetching tasks for device:', deviceId);
-        const response = await axios.get(
-          `${renderServer}?deviceId=${deviceId}`
-        );
+        const response = await axios.get(`${renderServer}?deviceId=${deviceId}`);
         const taskValues = response.data.tasks;
-        console.log('Retrieved tasks:', taskValues);
         setTask(taskValues);
       } catch (err) {
         console.log('error receiving data:', err);
@@ -61,7 +57,7 @@ function TaskManager() {
     };
 
     fetchItem();
-  }, [deviceId]);
+  }, [deviceId, renderServer]);
 
   // POST REQUEST
   const addTaskHandler = async newTask => {

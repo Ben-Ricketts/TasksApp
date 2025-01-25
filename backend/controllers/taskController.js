@@ -2,7 +2,10 @@ const Task = require("../models/taskModel");
 
 exports.getTasks = async (req, res) => {
   try {
-    const findTasks = await Task.find();
+    const { deviceId } = req.query;
+    
+    // Only return tasks that match the device ID
+    const findTasks = await Task.find({ deviceId: deviceId });
 
     res.status(200).json({
       message: "Items found",
